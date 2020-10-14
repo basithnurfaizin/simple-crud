@@ -1,20 +1,18 @@
 package com.nurfaizin.backend.controller;
 
+import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.service.ShoppingService;
-import javassist.NotFoundException;
 import com.nurfaizin.backend.model.CreateShoppingRequest;
 import com.nurfaizin.backend.model.ListShoppingRequest;
 import com.nurfaizin.backend.model.ShoppingResponse;
 import com.nurfaizin.backend.model.WebResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 public class ShoppingController {
 
-    @Autowired
     protected ShoppingService service;
 
     @Autowired
@@ -28,14 +26,14 @@ public class ShoppingController {
             consumes = "application/json")
     public WebResponse<ShoppingResponse> createShopping(@RequestBody CreateShoppingRequest request){
         ShoppingResponse response = service.createShopping(request);
-        return  new WebResponse<ShoppingResponse>(200, "success", response);
+        return  new WebResponse<>(200, "success", response);
     }
 
     @PutMapping(value = "/api/shopping/{id}",
             produces = "application/json",
             consumes = "application/json")
     public WebResponse<ShoppingResponse> updateShopping(@RequestBody CreateShoppingRequest request,
-                                                        @PathVariable Long id) throws NotFoundException {
+                                                        @PathVariable Long id) throws NotFoundException, javassist.NotFoundException {
         ShoppingResponse response = service.update(request, id);
         return  new WebResponse<>(200, "success", response);
 
@@ -54,7 +52,7 @@ public class ShoppingController {
     }
 
     @GetMapping(
-            value = "/api/products",
+            value = "/api/shopping",
             produces = "application/json"
     )
     public WebResponse<List<ShoppingResponse>> listShopping(@RequestParam(value = "size", defaultValue = "10") Integer size,

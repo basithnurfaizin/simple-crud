@@ -1,9 +1,9 @@
 package com.nurfaizin.backend.service.impl;
 
 import com.nurfaizin.backend.entity.Shopping;
+import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.repository.ShoppingRepository;
 import com.nurfaizin.backend.service.ShoppingService;
-import javassist.NotFoundException;
 import com.nurfaizin.backend.model.CreateShoppingRequest;
 import com.nurfaizin.backend.model.ListShoppingRequest;
 import com.nurfaizin.backend.model.ShoppingResponse;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,11 +73,13 @@ public class ShoppingServiceImpl implements ShoppingService {
     }
 
     private Shopping findShoppingByIdOrThrowNotFound(Long id) throws NotFoundException {
-        Shopping shopping = repository.findById(id).get();
-        if(shopping == null) {
-            throw new NotFoundException("not found");
+
+        Optional<Shopping> shopping1 = repository.findById(id);
+        if(shopping1.isPresent()) {
+            return shopping1.get();
+
         }
-        return  shopping;
+        throw new NotFoundException();
     }
 
     private ShoppingResponse convertShoppingToResponse(Shopping shopping) {

@@ -1,6 +1,6 @@
 package com.nurfaizin.backend.service;
-
-import javassist.NotFoundException;
+;
+import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.model.CreateShoppingRequest;
 import com.nurfaizin.backend.model.ListShoppingRequest;
 import com.nurfaizin.backend.model.ShoppingResponse;
@@ -15,7 +15,7 @@ public interface ShoppingService {
 
     ShoppingResponse update(CreateShoppingRequest request, Long id) throws NotFoundException;
 
-    void delete(Long id) throws NotFoundException;
+    void delete(Long id) throws NotFoundException, com.nurfaizin.backend.error.NotFoundException;
 
     List<ShoppingResponse> list(ListShoppingRequest request);
 }

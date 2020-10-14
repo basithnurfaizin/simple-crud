@@ -1,8 +1,6 @@
 package com.nurfaizin.backend.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -11,6 +9,7 @@ import java.util.Date;
 public class Shopping {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO )
     private Long id;
 
     private String name;
