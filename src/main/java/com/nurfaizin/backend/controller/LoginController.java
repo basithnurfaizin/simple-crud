@@ -24,7 +24,6 @@ public class LoginController {
             consumes = "application/json")
     public WebResponse<RegisterResponse> register(@RequestBody RegisterRequest request) {
         RegisterResponse response = service.register(request);
-
         return  new WebResponse<>(200, "success", response);
     }
 
@@ -34,7 +33,7 @@ public class LoginController {
             consumes = "application/json")
     public WebResponse<RegisterResponse> login(@RequestBody LoginRequest request) throws NotFoundException, NoSuchAlgorithmException {
         RegisterResponse response = service.login(request);
-
+        System.out.println(response.toString());
         return  new WebResponse<>(200, "success", response);
     }
 }

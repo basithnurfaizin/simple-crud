@@ -2,7 +2,6 @@ package com.nurfaizin.backend.service.impl;
 
 
 import com.nurfaizin.backend.entity.User;
-import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.model.request.LoginRequest;
 import com.nurfaizin.backend.repository.UserRepository;
 import com.nurfaizin.backend.service.AuthService;
@@ -13,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import sun.plugin.liveconnect.SecurityContextHelper;
-
 import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -36,29 +33,31 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public RegisterResponse login(LoginRequest request) throws NotFoundException, NoSuchAlgorithmException {
-        Optional<User> user = repository.findByUsername(request.getUsername());
-        if(!user.isPresent()) {
-            throw new NotFoundException();
-        }
-        if (!(user.get().getPassword() != null && SecureUtil.getMd5(request.getPassword()).equals(user.get().getPassword()))) {
-            throw new NotFoundException();
+    public RegisterResponse login(LoginRequest request) throws NoSuchAlgorithmException {
+        User user = repository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
+        if (!(user.getPassword() != null && SecureUtil.getMd5(request.getPassword()).equals(user.getPassword()))) {
+            throw new UsernameNotFoundException("User Not Found");
         }
 
-        String token = SecureUtil.generateRandomToken(user.get().getName() + user.get().getPassword());
+        String token = SecureUtil.generateRandomToken(user.getName() + user.getPassword());
 
-        user.get().setToken(token);
+        user.setToken(token);
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user.get(), user.get().getToken(), null);
+        repository.save(user);
+
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getToken(), null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return convertModelToResponse(user.get());
+        return convertModelToResponse(user);
     }
 
     private RegisterResponse convertModelToResponse(User user){
-        return new RegisterResponse(
-                user.getEmail(),
-                user.getToken(),
-                user.getUsername());
+        RegisterResponse response = new RegisterResponse();
+        response.setToken(user.getToken());
+        response.setEmail(user.getEmail());
+        response.setUsername(user.getUsername());
+        return response;
     }
 }

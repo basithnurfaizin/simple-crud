@@ -3,6 +3,7 @@ package com.nurfaizin.backend.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "user")
+@ToString
 public class User {
 
     @Id
