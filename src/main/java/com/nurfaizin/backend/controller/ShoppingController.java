@@ -2,10 +2,10 @@ package com.nurfaizin.backend.controller;
 
 import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.service.ShoppingService;
-import com.nurfaizin.backend.model.CreateShoppingRequest;
-import com.nurfaizin.backend.model.ListShoppingRequest;
-import com.nurfaizin.backend.model.ShoppingResponse;
-import com.nurfaizin.backend.model.WebResponse;
+import com.nurfaizin.backend.model.request.CreateShoppingRequest;
+import com.nurfaizin.backend.model.request.ListShoppingRequest;
+import com.nurfaizin.backend.model.response.ShoppingResponse;
+import com.nurfaizin.backend.model.response.WebResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -59,6 +59,6 @@ public class ShoppingController {
                                                             @RequestParam(value = "page", defaultValue = "0") Integer page){
         ListShoppingRequest shoppingRequest = new ListShoppingRequest(page, size);
         List<ShoppingResponse> responses = service.list(shoppingRequest);
-        return new WebResponse<>( 200, "success", responses);
+        return new WebResponse<>( 200, "success", responses, page, size);
     }
 }

@@ -1,4 +1,4 @@
-package com.nurfaizin.backend.model;
+package com.nurfaizin.backend.model.request;
 
 
 public class ListShoppingRequest {

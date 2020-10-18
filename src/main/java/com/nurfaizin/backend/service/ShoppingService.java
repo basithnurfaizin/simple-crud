@@ -1,9 +1,9 @@
 package com.nurfaizin.backend.service;
 ;
 import com.nurfaizin.backend.error.NotFoundException;
-import com.nurfaizin.backend.model.CreateShoppingRequest;
-import com.nurfaizin.backend.model.ListShoppingRequest;
-import com.nurfaizin.backend.model.ShoppingResponse;
+import com.nurfaizin.backend.model.request.CreateShoppingRequest;
+import com.nurfaizin.backend.model.request.ListShoppingRequest;
+import com.nurfaizin.backend.model.response.ShoppingResponse;
 
 import java.util.List;
 

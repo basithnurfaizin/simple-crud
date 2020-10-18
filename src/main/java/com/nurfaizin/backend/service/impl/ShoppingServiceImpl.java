@@ -4,14 +4,13 @@ import com.nurfaizin.backend.entity.Shopping;
 import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.repository.ShoppingRepository;
 import com.nurfaizin.backend.service.ShoppingService;
-import com.nurfaizin.backend.model.CreateShoppingRequest;
-import com.nurfaizin.backend.model.ListShoppingRequest;
-import com.nurfaizin.backend.model.ShoppingResponse;
+import com.nurfaizin.backend.model.request.CreateShoppingRequest;
+import com.nurfaizin.backend.model.request.ListShoppingRequest;
+import com.nurfaizin.backend.model.response.ShoppingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,12 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class ShoppingServiceImpl implements ShoppingService {
 
-    protected ShoppingRepository repository;
-
     @Autowired
-    public ShoppingServiceImpl(ShoppingRepository repository){
-        this.repository = repository;
-    }
+    protected ShoppingRepository repository;
 
     @Override
     public ShoppingResponse createShopping(CreateShoppingRequest request) {
@@ -73,16 +68,18 @@ public class ShoppingServiceImpl implements ShoppingService {
     }
 
     private Shopping findShoppingByIdOrThrowNotFound(Long id) throws NotFoundException {
-
-        Optional<Shopping> shopping1 = repository.findById(id);
-        if(shopping1.isPresent()) {
-            return shopping1.get();
-
+        Optional<Shopping> shopping = repository.findById(id);
+        if(shopping.isPresent()) {
+            return shopping.get();
         }
         throw new NotFoundException();
     }
 
     private ShoppingResponse convertShoppingToResponse(Shopping shopping) {
-        return new ShoppingResponse(shopping.getCreatedDate(), shopping.getName(), shopping.getId());
+        return new ShoppingResponse(
+                shopping.getCreatedDate(),
+                shopping.getName(),
+                shopping.getId()
+        );
     }
 }

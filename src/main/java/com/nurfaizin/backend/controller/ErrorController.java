@@ -2,7 +2,7 @@ package com.nurfaizin.backend.controller;
 
 import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.error.UnauthorizedException;
-import com.nurfaizin.backend.model.WebResponse;
+import com.nurfaizin.backend.model.response.WebResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ConstraintViolationException;

@@ -1,4 +1,4 @@
-package com.nurfaizin.backend.model;
+package com.nurfaizin.backend.model.response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,4 +14,7 @@ public class RegisterResponse  implements Serializable {
     private String token;
 
     private String username;
+
+    public RegisterResponse(String email, String token, String username) {
+    }
 }
