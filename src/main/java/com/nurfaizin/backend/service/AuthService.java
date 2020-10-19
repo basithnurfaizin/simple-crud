@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 public interface AuthService {
 
-    RegisterResponse register(RegisterRequest registerRequest);
+    RegisterResponse register(RegisterRequest registerRequest) throws NotFoundException;
 
     RegisterResponse login(LoginRequest request) throws NotFoundException, NoSuchAlgorithmException;
 

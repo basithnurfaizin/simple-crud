@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "users")
 @ToString
 public class User {
 

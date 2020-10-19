@@ -9,11 +9,12 @@ import com.nurfaizin.backend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.security.NoSuchAlgorithmException;
 
 @RestController
+@RequestMapping("/api/auth")
 public class LoginController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class LoginController {
     @PostMapping(value = "/register",
             produces = "application/json",
             consumes = "application/json")
-    public WebResponse<RegisterResponse> register(@RequestBody RegisterRequest request) {
+    public WebResponse<RegisterResponse> register(@RequestBody RegisterRequest request) throws NotFoundException {
         RegisterResponse response = service.register(request);
         return  new WebResponse<>(200, "success", response, "");
     }
@@ -33,7 +34,6 @@ public class LoginController {
             consumes = "application/json")
     public WebResponse<RegisterResponse> login(@RequestBody LoginRequest request) throws NotFoundException, NoSuchAlgorithmException {
         RegisterResponse response = service.login(request);
-        System.out.println(response.toString());
         return  new WebResponse<>(200, "success", response, "");
     }
 }

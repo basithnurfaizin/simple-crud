@@ -22,5 +22,8 @@ public class RegisterResponse  implements Serializable {
     }
 
     public RegisterResponse(String email, String token, String username) {
+        this.email = email;
+        this.token = token;
+        this.username = username;
     }
 }

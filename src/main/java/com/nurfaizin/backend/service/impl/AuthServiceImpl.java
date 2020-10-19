@@ -2,19 +2,26 @@ package com.nurfaizin.backend.service.impl;
 
 
 import com.nurfaizin.backend.entity.User;
+import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.model.request.LoginRequest;
 import com.nurfaizin.backend.repository.UserRepository;
+import com.nurfaizin.backend.security.jwt.JwtUtils;
+import com.nurfaizin.backend.security.services.UserDetailsImpl;
 import com.nurfaizin.backend.service.AuthService;
 import com.nurfaizin.backend.model.request.RegisterRequest;
 import com.nurfaizin.backend.model.response.RegisterResponse;
 import com.nurfaizin.backend.util.SecureUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -22,35 +29,46 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     protected UserRepository repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Override
-    public RegisterResponse register(RegisterRequest registerRequest) {
-        User user = registerRequest.toCreateEntity();
-        String token = SecureUtil.generateRandomToken(user.getName() + user.getPassword());
-        user.setToken(token);
+    public RegisterResponse register(RegisterRequest registerRequest) throws NotFoundException {
+
+        if(repository.existsByUsername(registerRequest.getUsername())) {
+            throw new NotFoundException();
+        }
+
+        User user = new User();
+        user.setUsername(registerRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setName(registerRequest.getName());
         repository.save(user);
         return convertModelToResponse(user);
     }
 
     @Override
     public RegisterResponse login(LoginRequest request) throws NoSuchAlgorithmException {
-        User user = repository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
-        if (!(user.getPassword() != null && SecureUtil.getMd5(request.getPassword()).equals(user.getPassword()))) {
-            throw new UsernameNotFoundException("User Not Found");
-        }
-
-        String token = SecureUtil.generateRandomToken(user.getName() + user.getPassword());
-
-        user.setToken(token);
-
-        repository.save(user);
 
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getToken(), null);
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
 
-        return convertModelToResponse(user);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        System.out.println(jwt);
+        return new RegisterResponse(userDetails.getEmail(), jwt, userDetails.getUsername());
     }
 
     private RegisterResponse convertModelToResponse(User user){
