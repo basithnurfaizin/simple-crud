@@ -2,7 +2,7 @@ package com.nurfaizin.backend.security;
 
 import com.nurfaizin.backend.security.jwt.AuthEntryPointJwt;
 import com.nurfaizin.backend.security.jwt.AuthTokenFilter;
-import com.nurfaizin.backend.security.services.UserDetailsServiceImpl;
+import com.nurfaizin.backend.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

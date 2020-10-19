@@ -66,6 +66,27 @@ public class TodoServiceImpl implements TodoService {
         return repository.findAll(PageRequest.of(request.getPage(), request.getSize()));
     }
 
+    @Override
+    public TodoResponse update(Long id, TodoRequestCreate requestCreate) throws NotFoundException {
+        Todo todo = findTodoById(id);
+        Set<Item> items = new HashSet<>();
+        todo.setTodoName(requestCreate.getName());
+        for (String s : requestCreate.getItems()) {
+            Item item = itemRepository.findByItemName(s);
+            items.add(item);
+        }
+        todo.setItems(items);
+        repository.save(todo);
+        return convertModelToResponse(todo);
+    }
+
+    @Override
+    public void delete(Long id) throws NotFoundException {
+        Todo todo = findTodoById(id);
+        repository.delete(todo);
+    }
+
+
     private TodoResponse convertModelToResponse(Todo todo) {
         return new TodoResponse(todo.getId(), todo.getTodoName(), todo.getItems());
     }

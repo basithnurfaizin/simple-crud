@@ -1,16 +1,13 @@
-package com.nurfaizin.backend.security.services;
+package com.nurfaizin.backend.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nurfaizin.backend.entity.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+
 
 public class UserDetailsImpl implements UserDetails {
 

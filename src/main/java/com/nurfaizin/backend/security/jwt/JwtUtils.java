@@ -1,6 +1,6 @@
 package com.nurfaizin.backend.security.jwt;
 
-import com.nurfaizin.backend.security.services.UserDetailsImpl;
+import com.nurfaizin.backend.service.impl.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

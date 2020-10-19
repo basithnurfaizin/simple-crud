@@ -1,4 +1,4 @@
-package com.nurfaizin.backend.security.services;
+package com.nurfaizin.backend.service.impl;
 
 import com.nurfaizin.backend.entity.User;
 import com.nurfaizin.backend.repository.UserRepository;

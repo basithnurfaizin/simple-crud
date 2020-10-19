@@ -18,4 +18,8 @@ public interface TodoService {
     List<TodoResponse> list(ListRequest request);
 
     Page<Todo> pageTodo(ListRequest request);
+
+    TodoResponse update(Long id, TodoRequestCreate requestCreate) throws NotFoundException;
+
+    void delete(Long id) throws NotFoundException;
 }

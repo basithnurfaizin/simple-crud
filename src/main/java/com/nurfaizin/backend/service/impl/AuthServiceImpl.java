@@ -6,22 +6,17 @@ import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.model.request.LoginRequest;
 import com.nurfaizin.backend.repository.UserRepository;
 import com.nurfaizin.backend.security.jwt.JwtUtils;
-import com.nurfaizin.backend.security.services.UserDetailsImpl;
 import com.nurfaizin.backend.service.AuthService;
 import com.nurfaizin.backend.model.request.RegisterRequest;
 import com.nurfaizin.backend.model.response.RegisterResponse;
-import com.nurfaizin.backend.util.SecureUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.security.NoSuchAlgorithmException;
-import java.security.Security;
 
 @Service
 public class AuthServiceImpl implements AuthService {
