@@ -6,6 +6,7 @@ import com.nurfaizin.backend.util.SecureUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.NoSuchAlgorithmException;
 

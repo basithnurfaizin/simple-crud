@@ -7,25 +7,17 @@ public class WebResponse<T> implements Serializable {
 
     public Integer code;
 
-    public String status;
+    public String message;
 
     public T data;
 
-    public int page;
+    public String errorMessage;
 
-    public int pageOf;
-
-    public WebResponse(Integer code, String status, T data) {
+    public WebResponse(Integer code, String status, T data, String errorMessage) {
         this.code = code;
-        this.status = status;
+        this.message = status;
         this.data = data;
+        this.errorMessage = errorMessage;
     }
 
-    public WebResponse(Integer code, String status, T data, int page, int pageOf) {
-        this.code = code;
-        this.status = status;
-        this.data = data;
-        this.page = page;
-        this.pageOf = pageOf;
-    }
 }

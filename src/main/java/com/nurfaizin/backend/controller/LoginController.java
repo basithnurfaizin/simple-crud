@@ -19,21 +19,21 @@ public class LoginController {
     @Autowired
     protected AuthService service;
 
-    @PostMapping(value = "/api/register",
+    @PostMapping(value = "/register",
             produces = "application/json",
             consumes = "application/json")
     public WebResponse<RegisterResponse> register(@RequestBody RegisterRequest request) {
         RegisterResponse response = service.register(request);
-        return  new WebResponse<>(200, "success", response);
+        return  new WebResponse<>(200, "success", response, "");
     }
 
 
-    @PostMapping(value = "/api/login",
+    @PostMapping(value = "/login",
             produces = "application/json",
             consumes = "application/json")
     public WebResponse<RegisterResponse> login(@RequestBody LoginRequest request) throws NotFoundException, NoSuchAlgorithmException {
         RegisterResponse response = service.login(request);
         System.out.println(response.toString());
-        return  new WebResponse<>(200, "success", response);
+        return  new WebResponse<>(200, "success", response, "");
     }
 }

@@ -5,7 +5,7 @@ import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.repository.ShoppingRepository;
 import com.nurfaizin.backend.service.ShoppingService;
 import com.nurfaizin.backend.model.request.CreateShoppingRequest;
-import com.nurfaizin.backend.model.request.ListShoppingRequest;
+import com.nurfaizin.backend.model.request.ListRequest;
 import com.nurfaizin.backend.model.response.ShoppingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,7 +56,7 @@ public class ShoppingServiceImpl implements ShoppingService {
     }
 
     @Override
-    public List<ShoppingResponse> list(ListShoppingRequest request) {
+    public List<ShoppingResponse> list(ListRequest request) {
          Page<Shopping> page = repository.findAll(PageRequest.of(request.getPage(), request.getSize()));
          List<Shopping> shoppingList = page.get().collect(Collectors.toList());
          List<ShoppingResponse> shoppingResponses = new ArrayList<>();

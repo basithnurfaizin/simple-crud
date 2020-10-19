@@ -1,13 +1,13 @@
 package com.nurfaizin.backend.model.request;
 
 
-public class ListShoppingRequest {
+public class ListRequest {
 
     private Integer page;
 
     private  Integer size;
 
-    public ListShoppingRequest(Integer page, Integer size) {
+    public ListRequest(Integer page, Integer size) {
         this.page = page;
         this.size = size;
     }

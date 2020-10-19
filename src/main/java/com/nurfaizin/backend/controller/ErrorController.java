@@ -13,22 +13,22 @@ public class ErrorController {
 
     @ExceptionHandler(value = ConstraintViolationException.class)
     public WebResponse<String> validationHandle(ConstraintViolationException constraintViolationException) {
-        return  new WebResponse<>(400, "BAD REQUEST", constraintViolationException.getMessage());
+        return  new WebResponse<>(400, "BAD REQUEST", constraintViolationException.getMessage(), "");
     }
 
     @ExceptionHandler(value = NotFoundException.class)
     public WebResponse<String> notFound(NotFoundException notFoundException){
-        return  new WebResponse<>(400, "BAD REQUEST", "Data not Found");
+        return  new WebResponse<>(400, "BAD REQUEST", "Data not Found", "");
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)
     public WebResponse<String> unauthorized(UnauthorizedException unauthorizedException){
-        return  new WebResponse<>(400, "BAD REQUEST", "unauthorized");
+        return  new WebResponse<>(400, "BAD REQUEST", "unauthorized", "");
     }
 
     @ExceptionHandler(value = UsernameNotFoundException.class)
     public WebResponse<String> userNotFound(UsernameNotFoundException usernameNotFoundException) {
-        return  new WebResponse<>(404, "Not Found", "User Not Found");
+        return  new WebResponse<>(404, "Not Found", "User Not Found", "");
     }
 
 
