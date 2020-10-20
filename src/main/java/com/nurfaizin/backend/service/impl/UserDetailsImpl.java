@@ -1,12 +1,14 @@
 package com.nurfaizin.backend.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nurfaizin.backend.entity.Role;
 import com.nurfaizin.backend.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class UserDetailsImpl implements UserDetails {
@@ -22,7 +24,11 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private User user;
+
     private Collection<? extends GrantedAuthority> authorities;
+
+
 
     public UserDetailsImpl(Long id, String username, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
@@ -34,17 +40,19 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(User user) {
-
-
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getPassword() , new ArrayList<>());
+                user.getPassword() , authorities);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return authorities;
     }
 

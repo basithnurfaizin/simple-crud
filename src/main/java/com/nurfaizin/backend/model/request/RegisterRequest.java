@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,6 +32,8 @@ public class RegisterRequest implements EntityRequest<User>{
     private String name;
 
     private String postCode;
+
+    private List<Long> roleIds;
 
     @Override
     public User toCreateEntity() {
