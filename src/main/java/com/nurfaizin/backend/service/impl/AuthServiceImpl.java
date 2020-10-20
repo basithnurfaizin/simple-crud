@@ -1,6 +1,5 @@
 package com.nurfaizin.backend.service.impl;
 
-
 import com.nurfaizin.backend.entity.Role;
 import com.nurfaizin.backend.entity.User;
 import com.nurfaizin.backend.error.NotFoundException;
@@ -46,12 +45,12 @@ public class AuthServiceImpl implements AuthService {
         if(repository.existsByUsername(registerRequest.getUsername())) {
             throw new NotFoundException();
         }
-
         User user = new User();
         Set<Role> roles = new HashSet<>();
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setName(registerRequest.getName());
+        user.setEmail(registerRequest.getEmail());
         for (Long id : registerRequest.getRoleIds()) {
             Role role = roleRepository.getOne(id);
             roles.add(role);
@@ -64,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        return new RegisterResponse(userDetails.getEmail(), jwt, userDetails.getUsername());
+        return convertModelToResponse(userDetails, jwt);
     }
 
     @Override
@@ -75,15 +74,14 @@ public class AuthServiceImpl implements AuthService {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        System.out.println(jwt);
-        return new RegisterResponse(userDetails.getEmail(), jwt, userDetails.getUsername());
+        return convertModelToResponse(userDetails, jwt);
     }
 
-    private RegisterResponse convertModelToResponse(User user){
+    private RegisterResponse convertModelToResponse(UserDetailsImpl userDetails, String jwt){
         RegisterResponse response = new RegisterResponse();
-        response.setToken(user.getToken());
-        response.setEmail(user.getEmail());
-        response.setUsername(user.getUsername());
+        response.setToken(jwt);
+        response.setEmail(userDetails.getEmail());
+        response.setUsername(userDetails.getUsername());
         return response;
     }
 
@@ -95,7 +93,6 @@ public class AuthServiceImpl implements AuthService {
 
     private String generateToken(Authentication authentication) {
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         return jwtUtils.generateJwtToken(authentication);
     }
 }
