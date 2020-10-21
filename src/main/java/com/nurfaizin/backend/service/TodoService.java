@@ -4,6 +4,7 @@ import com.nurfaizin.backend.entity.Todo;
 import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.model.request.ListRequest;
 import com.nurfaizin.backend.model.request.TodoRequestCreate;
+import com.nurfaizin.backend.model.request.TodoRequestUpdate;
 import com.nurfaizin.backend.model.response.TodoResponse;
 import org.springframework.data.domain.Page;
 
@@ -22,4 +23,7 @@ public interface TodoService {
     TodoResponse update(Long id, TodoRequestCreate requestCreate) throws NotFoundException;
 
     void delete(Long id) throws NotFoundException;
+
+    TodoResponse updateProgress(Long id, TodoRequestUpdate request) throws NotFoundException;
+
 }

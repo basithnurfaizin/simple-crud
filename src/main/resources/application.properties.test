@@ -1,0 +1,19 @@
+spring.datasource.platform=h2
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.url=jdbc:h2:mem:test;
+spring.datasource.username=SA
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+spring.jpa.properties.hibernate.jdbc.batch_size = 50
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.hibernate.order_inserts = true
+spring.mail.host=smtp.mailspons.com
+spring.mail.port=587
+spring.mail.username=bc77caa2adba443ca55045e32d5233f2
+spring.mail.password=368c2efdba924c61b334158fa013bcee
+spring.mail.from= info@javan.co.id
+spring.jackson.property-naming-strategy=SNAKE_CASE
+server.error.whitelabel.enabled=false
+spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS = false
+

@@ -31,5 +31,4 @@ public class ErrorController {
         return  new WebResponse<>(404, "Not Found", "User Not Found", "");
     }
 
-
 }

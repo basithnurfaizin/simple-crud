@@ -4,11 +4,12 @@ import com.nurfaizin.backend.entity.Role;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Getter
 @Setter
-public class UserResponse {
+public class UserResponse implements Serializable {
 
     private Long id;
 

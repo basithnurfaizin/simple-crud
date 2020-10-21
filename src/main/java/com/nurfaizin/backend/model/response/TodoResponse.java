@@ -15,9 +15,12 @@ public class TodoResponse {
 
     private Set<Item> items;
 
-    public TodoResponse(Long id, String name, Set<Item> items) {
+    private Boolean isCompleted;
+
+    public TodoResponse(Long id, String name, Set<Item> items, Boolean isCompleted) {
         this.id = id;
         this.name = name;
         this.items = items;
+        this.isCompleted = isCompleted;
     }
 }

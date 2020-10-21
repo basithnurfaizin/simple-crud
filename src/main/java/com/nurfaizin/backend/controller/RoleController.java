@@ -6,6 +6,7 @@ import com.nurfaizin.backend.model.response.RoleResponse;
 import com.nurfaizin.backend.model.response.WebResponse;
 import com.nurfaizin.backend.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,7 +15,7 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
-
+    @Secured("ROLE_ADMIN")
     @PostMapping(value = "/api/role",
             produces = "application/json",
             consumes = "application/json")
@@ -24,6 +25,7 @@ public class RoleController {
     }
 
 
+    @Secured("ROLE_ADMIN")
     @PutMapping(value = "/api/role/{id}",
             produces = "application/json",
             consumes = "application/json")
@@ -39,6 +41,7 @@ public class RoleController {
     }
 
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping(value = "/api/role/{id}")
     public WebResponse<String> delete(@PathVariable Long id) throws NotFoundException {
         roleService.delete(id);

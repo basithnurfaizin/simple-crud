@@ -5,6 +5,7 @@ import com.nurfaizin.backend.entity.Todo;
 import com.nurfaizin.backend.error.NotFoundException;
 import com.nurfaizin.backend.model.request.ListRequest;
 import com.nurfaizin.backend.model.request.TodoRequestCreate;
+import com.nurfaizin.backend.model.request.TodoRequestUpdate;
 import com.nurfaizin.backend.model.response.TodoResponse;
 import com.nurfaizin.backend.repository.ItemRepository;
 import com.nurfaizin.backend.repository.TodoRepository;
@@ -86,16 +87,24 @@ public class TodoServiceImpl implements TodoService {
         repository.delete(todo);
     }
 
+    @Override
+    public TodoResponse updateProgress(Long id, TodoRequestUpdate request) throws NotFoundException {
+        Todo todo = findTodoById(id);
+        todo.setIsComplete(request.getIsCompleted());
+        return convertModelToResponse(todo);
+    }
+
 
     private TodoResponse convertModelToResponse(Todo todo) {
-        return new TodoResponse(todo.getId(), todo.getTodoName(), todo.getItems());
+        return new TodoResponse(todo.getId(), todo.getTodoName(), todo.getItems(), todo.getIsComplete());
     }
 
     private Todo findTodoById(Long id) throws NotFoundException {
         Optional<Todo> todo = repository.findById(id);
-        if(todo.isPresent()) {
+        if(!todo.isPresent()) {
             throw new NotFoundException();
         }
         return  todo.get();
     }
 }
+
